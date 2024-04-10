@@ -147,7 +147,42 @@ return [
             'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
         ],
 
-        'default' => [
+        'cluster_enabled' => env('REDIS_CLUSTER_ENABLED', false),
+
+        'clusters' => [
+            'default' => array_map(function ($node) {
+                if (empty($node)) {
+                    return [];
+                }
+                [$host, $port, $password] = explode('::', $node);
+                return [
+                    'host' => $host,
+                    'port' => $port,
+                    'password' => $password ?: null, // Use null if password is an empty string
+                    'database' => env('REDIS_DB', '0'),
+                ];
+            }, explode(',', env('REDIS_CLUSTER_URL', ''))),
+
+            'cache' => array_map(function ($node) {
+                if (empty($node)) {
+                    return [];
+                }
+                [$host, $port, $password] = explode('::', $node);
+                return [
+                    'host' => $host,
+                    'port' => $port,
+                    'password' => $password ?: null, // Use null if password is an empty string
+                    'database' => env('REDIS_DB', '0'),
+                ];
+            }, explode(',', env('REDIS_CLUSTER_URL', ''))),
+
+            'options' => [
+                'cluster' => env('REDIS_CLUSTER', 'redis'),
+                'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            ],
+        ],
+
+        'default1' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'username' => env('REDIS_USERNAME'),
@@ -156,7 +191,7 @@ return [
             'database' => env('REDIS_DB', '0'),
         ],
 
-        'cache' => [
+        'cache1' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'username' => env('REDIS_USERNAME'),
