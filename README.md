@@ -35,7 +35,7 @@ Before getting started, make sure you have the following installed on your machi
     ```bash
     ./vendor/bin/sail up
     ```
-Be patient and allow it to run full course until all containers are running. You can also try
+   Be patient and allow it to run full course until all containers are running. You can also try
     ```bash
     ./vendor/bin/sail up -d
     ```
@@ -44,7 +44,7 @@ Be patient and allow it to run full course until all containers are running. You
     ```bash
     ./create_cluster.sh
     ```
-Ensure to accept the default configuration suggested.
+   Ensure to accept the default configuration suggested.
 
 7. Now try accessing the application over the port you defined with `APP_PORT` and if you haven't defined one, edit the `.env` and define an unused port on your machine eg `APP_PORT=7070`
 
